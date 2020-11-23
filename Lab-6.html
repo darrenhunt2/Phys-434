@@ -13172,7 +13172,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To begin, we generate random Poisson-distributed values with a predefined mean of $\mu=100$. This plot allows us to look at the shape of the background distribution before we begin injecting signals. We can see it follows the discrete-valued nature as expected for a Poisson, and is centered at the mean we  defined. Setting density to be true allows us to look at the probabilities instead of count frequencies for our background, but either verify that we created our fake background correctly.</p>
+<p>To begin, we generate random Poisson-distributed values with a predefined mean of $\mu=100$. This plot allows us to look at the shape of the background distribution before we begin injecting signals. We can see it follows the discrete-valued nature as expected for a Poisson, and is centered at the mean we  defined. Setting density to be true allows us to look at the probabilities instead of count frequencies for our background, but either a probability or frequency plot will verify that we created our fake background correctly.</p>
 
 </div>
 </div>
@@ -13446,7 +13446,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The observed signal above is very symmetric about the mean=215 signal strength, as seen in both the histogram and log plots above. There is very little variation or change away from a symmetric Gaussian shape. Therefore, the observed signal that we measure is not biased. Since both the background and the signal follow the same type of distribution, we don't expect the observed signal value to stray far from the Gaussian.</p>
+<p>The observed signal above is very symmetric about the mean=215 signal strength, as seen in both the histogram and log plots above. There is very little variation or change away from a symmetric Gaussian shape. Since both the background and the signal follow the same type of distribution, we don't expect the observed signal value to stray far from the Gaussian. There is however a bias in the observed signal. This is because the observed signal is not equally probable to be stronger or weaker than the true injected signal. The background can only add positive values here, and the range of injected signals is relatively small. The observed signal resulting from this background therefore will never be below what the true value is. We can expect this sort of bias due to the nature of the signal we injected. It took on a Poisson distribution about a pre-defined mean, instead of random and uniform signals across a very wide range.</p>
 
 </div>
 </div>
@@ -13827,7 +13827,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># calculate 1 sigma uncertainty</span>
@@ -13840,8 +13840,8 @@ div#notebook {
 <span class="n">plus</span> <span class="o">=</span> <span class="n">upper</span> <span class="o">-</span> <span class="n">tmean</span> 
 <span class="n">minus</span> <span class="o">=</span> <span class="n">tmean</span> <span class="o">-</span> <span class="n">lower</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1-sigma uncertainty, upper : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">plus</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;, Upper bound : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">upper</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1-sigma uncertainty, lower : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">minus</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;, Lower bound : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lower</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1-sigma uncertainty, upper : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plus</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;, Upper bound : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">upper</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1-sigma uncertainty, lower : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">minus</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;, Lower Bound : &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lower</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13858,8 +13858,8 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1-sigma uncertainty, upper : 15.580927966490776, Upper bound : 269.0
-1-sigma uncertainty, lower : 15.419072033509224, Lower bound : 238.0
+<pre>1-sigma uncertainty, upper : 15.58, Upper bound : 269.0
+1-sigma uncertainty, lower : 15.42, Lower Bound : 238.0
 </pre>
 </div>
 </div>
@@ -13872,9 +13872,8 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Therefore, we can expect a true signal of the mean, plus or minus these bounds, within the 1-sigma uncertainty confidence interval. We are pretty confident the true signal falls somewhere within that range.</p>
-<p>I calculated both the upper and lower bounds separately to check if it truly is symmetric. The above calculations show that it is symmetric about the mean. We can expect the values to evenly fall within 1 sigma of either side, a value of plus or minus 15 events. This is not biased. The symmetry shows that you are equally likely to fall left of the mean as you are to fall to the right. Therefore, we can most likely expect the mean, or another value within + or - 15 of the mean.</p>
-<p>This makes sense. Our data is randomly generated each time this code is rerun, but it is expected to follow a Poisson distribution regardless. With many samples, we see the shape approaching to a Gaussian distribution, symmetric about whichever mean we input. In this lab, we used a mean of 100 for the background. Throughout the lab, I only saw minor fluctuations from the expected shape, but it never deviated from an approximately symmetric shape. Additionally, we made sure to randomly generate the signal as uniform to avoid weighting either side too heavily. If we had not generated this uniformly, we would likely see some asymmetry or bias.</p>
-<p>Therefore, our injected signal is not biased.</p>
+<p>I calculated both the upper and lower bounds separately to check if it truly is symmetric. The above calculations show that it is symmetric about the mean. We can expect the values to evenly fall within 1 sigma of either side, a value of plus or minus 15 events. The symmetry shows that you are equally likely to fall left of the mean as you are to fall to the right. Therefore, we can most likely expect the mean, or another value within + or - 15 of the mean.</p>
+<p>This makes sense. Our data is randomly generated each time this code is rerun, but it is expected to follow a Poisson distribution regardless. With many samples, we see the shape approaching to a Gaussian distribution, symmetric about whichever mean we input. In this lab, we used a mean of 100 for the background. Throughout the lab, I only saw minor fluctuations from the expected shape, but it never deviated from an approximately symmetric shape. Additionally, we made sure to randomly generate the signal as uniform to avoid weighting either side too heavily. If we had not generated this uniformly, we would likely see some asymmetry or more bias. The uniform range of signals is an attempt to eliminate the bias that we saw in the previous problem.</p>
 
 </div>
 </div>
